@@ -24,6 +24,6 @@ spark2-submit --conf "spark.executor.extraJavaOptions=-Djava.security.auth.login
   --conf "spark.driver.extraJavaOptions=-Djava.security.auth.login.config=/home/dlevy/jaas.conf -Djava.security.krb5.conf=/etc/krb5.conf" \
   --master yarn --deploy-mode client --jars ${SPARK_JARS} \
   --class com.cloudera.au.demo.ExampleConsumer ${APP_JAR} \
-  --brokers toot-nn-1.lab1.com:9092 --groupId demo --topic demo-1 \
+  --brokers toot-nn-1.lab1.com:9092 --groupId demo --topic demo-1 --path /data \
   --appName example-consumer
 

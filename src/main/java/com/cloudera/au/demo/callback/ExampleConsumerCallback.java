@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 import org.apache.commons.cli.CommandLine;
@@ -24,7 +25,7 @@ public class ExampleConsumerCallback implements
 
 	@Override
 	public void process(ConsumerRecord<String, String> record, String key,
-			String value) throws ProcessingException {
+			String value, Properties props) throws ProcessingException {
 
 		logger.info("Processing key [" + key + "]");
 		
@@ -35,7 +36,7 @@ public class ExampleConsumerCallback implements
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			String pathPrefix = formatter.format(new Date());
 			String uuid = UUID.randomUUID().toString();
-			String fileName = "/data/" + pathPrefix + "/" + uuid + ".data";
+			String fileName = props.getProperty("path") + pathPrefix + "/" + uuid + ".data";
 			
 			logger.info("Will store incoming file here: [" + fileName + "]");
 			

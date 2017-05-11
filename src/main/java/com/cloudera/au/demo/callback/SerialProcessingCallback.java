@@ -2,6 +2,7 @@ package com.cloudera.au.demo.callback;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -41,6 +42,6 @@ public interface SerialProcessingCallback<K,V> extends Serializable {
 	 * 
 	 * @param record
 	 */
-	public void process(ConsumerRecord<K, V> record, K key, V value);
+	public void process(ConsumerRecord<K, V> record, K key, V value, Properties props);
 	
 }

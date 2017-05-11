@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -224,13 +225,14 @@ public class SparkStreamingTemplate implements Serializable {
 		kafkaParams.put("security.protocol", "SASL_PLAINTEXT");
 		kafkaParams.put("sasl.kerberos.service.name", "kafka");
 
-		JavaInputDStream<ConsumerRecord<K, V>> messagesTemp = null;
 
+		Properties props = new Properties();
+		props.put("path", hdfsDir);
+		
 		Collection<String> topics = Arrays.asList(topic);
-		messagesTemp = KafkaUtils.createDirectStream(jssc, LocationStrategies.PreferConsistent(),
+		final JavaInputDStream<ConsumerRecord<K, V>> messages = KafkaUtils.createDirectStream(jssc, LocationStrategies.PreferConsistent(),
 				ConsumerStrategies.<K, V> Subscribe(topics, kafkaParams));
 
-		final JavaInputDStream<ConsumerRecord<K, V>> messages = messagesTemp;
 
 		messages.foreachRDD(new VoidFunction<JavaRDD<ConsumerRecord<K, V>>>() {
 
@@ -265,7 +267,7 @@ public class SparkStreamingTemplate implements Serializable {
 
 							try {
 
-								callback.process(record, record.key(), value);
+								callback.process(record, record.key(), value, props);
 							} catch (Exception e) {
 								// If we can't process a file, we need to record
 								// it as badly processed - potentially submit it

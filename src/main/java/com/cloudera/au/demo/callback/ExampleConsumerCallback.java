@@ -36,7 +36,7 @@ public class ExampleConsumerCallback implements
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			String pathPrefix = formatter.format(new Date());
 			String uuid = UUID.randomUUID().toString();
-			String fileName = props.getProperty("path") + pathPrefix + "/" + uuid + ".data";
+			String fileName = props.getProperty("path") + "/" + pathPrefix + "/" + uuid + ".data";
 			
 			logger.info("Will store incoming file here: [" + fileName + "]");
 			
